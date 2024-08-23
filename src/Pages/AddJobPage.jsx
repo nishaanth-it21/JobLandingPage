@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const AddJobPage = () => {
+const AddJobPage = ({addJobSubmit}) => {
     const [title, setTitle] = useState('');
     const [type, setType] = useState('Full-Time');
     const [location, setLocation] = useState('');
@@ -11,11 +13,37 @@ const AddJobPage = () => {
     const [companyDescription, setCompanyDescription] = useState('');
     const [contactEmail, setContactEmail] = useState('');
     const [contactPhone, setContactPhone] = useState('');
+
+
+    const navigate = useNavigate();
+    const submitForm = (e) => {
+      e.preventDefault();
+      
+      console.log(description);
+      
+      const newJob = {
+        title,
+        type,
+        location,
+        description,
+        salary,
+        company: {
+          name: companyName,
+          description: companyDescription,
+          contactEmail,
+          contactPhone
+        }
+      };
+      addJobSubmit(newJob) ;
+      toast.success('JOb addedd Successfully');
+      return navigate('/jobs');
+    };
+    
   return (
     <section className="bg-indigo-50">
       <div className="container m-auto max-w-2xl py-24">
         <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
-          <form>
+          <form onSubmit={submitForm}>
             <h2 className="text-3xl text-center font-semibold mb-6">Add Job</h2>
 
             <div className="mb-4">
